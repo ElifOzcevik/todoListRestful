@@ -1,0 +1,65 @@
+<html>
+<body>
+<h2>To Do Tasks</h2>
+
+<button type="button" onclick="list()">List</button>
+<button type="button" onclick="add()">Add/Upate</button>
+<button type="button" onclick="del()">Delete</button>
+<button type="button" onclick="del()">Read</button>
+
+<br/>
+
+<input type="text" id="id" value="">
+<input type="text" id="name" value="">
+<div id="result"></div>
+
+
+<script>
+
+function list() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      tasks=JSON.parse(this.responseText);
+      document.getElementById("result").innerHTML="";
+      for (var i = 0; i < tasks.length; i++) {
+        document.getElementById("result").innerHTML+=tasks[i].id+" "+tasks[i].name+"<br/>";
+      }
+    }
+  };
+  xhttp.open("GET", "/tasks", true);
+  xhttp.send();
+}
+
+
+function add() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("result").innerHTML=this.responseText;
+    }
+  };
+  id=document.getElementById("id").value;
+  name=document.getElementById("name").value;
+  xhttp.open("GET", "/tasks/a/"+id+"/"+name, true);
+  xhttp.send();
+}
+
+
+function del() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("result").innerHTML=this.responseText;
+    }
+  };
+  id=document.getElementById("id").value;
+  xhttp.open("GET", "/tasks/d/"+id, true);
+  xhttp.send();
+}
+
+</script>
+
+
+</html>
+</body>
